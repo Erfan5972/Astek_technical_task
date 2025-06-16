@@ -84,15 +84,15 @@ DATABASES = {
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
-if os.environ.get('GITHUB_WORKFLOW'):
+if os.environ.get("GITHUB_WORKFLOW"):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'github_actions',
-            'USER': 'astek_user',
-            'PASSWORD': 'asktek_123',
-            'HOST': '127.0.0.1',
-            'PORT': '5432',
+            'NAME': env('POSTGTES_DB', default='astek_technical_task'),
+            'USER': env('POSTGRES_USER', default='astek_user'),
+            'PASSWORD': env('POSTGRES_PASSWORD', default='asktek_123'),
+            'HOST': env('POSTGRES_HOST', default='127.0.0.1'),
+            'PORT': env('POSTGRES_PORT', default='5432'),
         }
     }
 
