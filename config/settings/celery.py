@@ -1,20 +1,27 @@
-from config.env import env
+import os
 
-# https://docs.celeryproject.org/en/stable/userguide/configuration.html
+# URL of the message broker that Celery will use to send and receive messages.
+# Typically Redis or RabbitMQ. Here, it uses the REDIS_URL environment variable,
+# falling back to localhost Redis if not set.
+CELERY_BROKER_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 
-CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='amqp://guest:guest@localhost//')
-CELERY_RESULT_BACKEND = 'django-db'
+# Backend used to store task results.
+# Often the same as the broker (Redis in this case), but can be different.
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 
-CELERY_TIMEZONE = 'UTC'
+# Specifies the scheduler class for celery-beat.
+# This setting enables django-celery-beat to store periodic task schedules in the Django database.
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
-CELERY_TASK_SOFT_TIME_LIMIT = 20  # seconds
-CELERT_TASK_TIME_LIMIT = 30  # seconds
-CELERY_TASK_MAX_RETRIES = 3
+# Content types Celery will accept. Here, only JSON format is accepted.
+CELERY_ACCEPT_CONTENT = ['json']
 
-CELERY_BEAT_SCHEDULE = {
-    'notify_customers': {
-        'task': 'config.tasks.notify_customers',
-        'schedule': 500,
-        'args': ['Hello World'],
-    }
-}
+# Serializer used to serialize task arguments when sending tasks to workers.
+CELERY_TASK_SERIALIZER = 'json'
+
+# Serializer used to serialize task results when storing them in the backend.
+CELERY_RESULT_SERIALIZER = 'json'
+
+# Logging level for Celery workers.
+# INFO level provides general operational information without too much verbosity.
+CELERYD_LOG_LEVEL = 'INFO'

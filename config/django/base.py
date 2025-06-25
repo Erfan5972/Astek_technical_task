@@ -17,6 +17,7 @@ LOCAL_APPS = [
     'astek_technical_task.core.apps.CoreConfig',
     'astek_technical_task.common.apps.CommonConfig',
     'astek_technical_task.accounts.apps.AccountsConfig',
+    'astek_technical_task.scheduler.apps.SchedulerConfig'
 ]
 
 THIRD_PARTY_APPS = [
