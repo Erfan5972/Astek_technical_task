@@ -16,8 +16,7 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 LOCAL_APPS = [
     'astek_technical_task.core.apps.CoreConfig',
     'astek_technical_task.common.apps.CommonConfig',
-    'astek_technical_task.users.apps.UsersConfig',
-    'astek_technical_task.authentication.apps.AuthenticationConfig',
+    'astek_technical_task.accounts.apps.AccountsConfig',
 ]
 
 THIRD_PARTY_APPS = [
@@ -28,6 +27,7 @@ THIRD_PARTY_APPS = [
     'corsheaders',
     'drf_spectacular',
     'django_extensions',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 INSTALLED_APPS = [
@@ -114,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-AUTH_USER_MODEL = 'users.BaseUser'
+AUTH_USER_MODEL = 'accounts.BaseUser'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -168,5 +168,4 @@ from config.settings.jwt import *  # noqa
 from config.settings.sessions import *  # noqa
 from config.settings.celery import *  # noqa
 from config.settings.swagger import *  # noqa
-#from config.settings.sentry import *  # noqa
-#from config.settings.email_sending import *  # noqa
+from config.settings.drf import * # noqa
