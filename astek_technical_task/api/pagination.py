@@ -9,6 +9,10 @@ def get_paginated_response(*, pagination_class, serializer_class, queryset, requ
 
     page = paginator.paginate_queryset(queryset, request, view=view)
 
+    if request.user.is_superuser:
+        paginator.max_limit = 100
+    paginator.max_limit = 10
+
     if page is not None:
         serializer = serializer_class(page, many=True)
         return paginator.get_paginated_response(serializer.data)
@@ -17,9 +21,9 @@ def get_paginated_response(*, pagination_class, serializer_class, queryset, requ
 
     return Response(data=serializer.data)
 
+
 def get_paginated_response_context(*, pagination_class, serializer_class, queryset, request, view):
     paginator = pagination_class()
-
     page = paginator.paginate_queryset(queryset, request, view=view)
 
     if page is not None:
