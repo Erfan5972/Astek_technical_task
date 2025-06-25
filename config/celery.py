@@ -6,3 +6,8 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.django.local')
 celery = Celery('config')
 celery.config_from_object('django.conf:django', namespace='CELERY')
 celery.autodiscover_tasks()
+
+
+@celery.task(bind=True)
+def debug_task(self):
+    print(f'Request: {self.request!r}')
